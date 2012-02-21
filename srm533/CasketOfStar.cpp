@@ -1,64 +1,74 @@
-#include <cstdio>
-#include <cstdlib>
-#include <cmath>
-#include <climits>
-#include <cfloat>
-#include <map>
-#include <cstring>
-#include <utility>
-#include <set>
-#include <iostream>
-#include <memory>
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <functional>
-#include <sstream>
-#include <complex>
-#include <stack>
-#include <queue>
+#include <cstdio> 
+#include <cstdlib> 
+#include <cmath> 
+#include <climits> 
+#include <cfloat> 
+#include <map> 
+#include <cstring> 
+#include <utility> 
+#include <set> 
+#include <iostream> 
+#include <memory> 
+#include <string> 
+#include <vector> 
+#include <algorithm> 
+#include <functional> 
+#include <sstream> 
+#include <complex> 
+#include <stack> 
+#include <queue> 
 
-using namespace std;
+using namespace std; 
 
-#define FOR(i,a,b) for(int (i)=(a);(i)<(b);(i)++)
-#define SORT(__a) sort(__a.begin(), __a.end())
-#define RSORT(__a) sort(__a.rbegin(), __a.rend())
-#define INF INT_MAX
-#define VS vector<string>
-#define VI vector<int>
-#define PB push_back
-#define clr(__v,__x) memset(__v, __x, sizeof __v);
-#define rep(i, n) FOR(i,0,n)
-#define all(a) a.begin(), a.end()
+#define FOR(i,a,b) for(int (i)=(a);(i)<(b);(i)++) 
+#define SORT(__a) sort(__a.begin(), __a.end()) 
+#define RSORT(__a) sort(__a.rbegin(), __a.rend()) 
+#define INF INT_MAX 
+#define VS vector<string> 
+#define VI vector<int> 
+#define PB push_back 
+#define clr(__v,__x) memset(__v, __x, sizeof __v); 
+#define rep(i, n) FOR(i,0,n) 
+#define all(a) a.begin(), a.end() 
 
-const double PI  = acos(-1.0);
-static const double EPS = 1e-5;
-typedef long long ll;
-typedef pair<int, int> P;
+const double PI  = acos(-1.0); 
+static const double EPS = 1e-5; 
+typedef long long ll; 
+typedef pair<int, int> P; 
 
-class CasketOfStarEasy {
-public:
-int N;
-int dp[100][100];
-vector <int> weight;
-int rec(int a, int b){
-	int &res = dp[a][b];
-	if(res != -1) return res;
-	res = 0;
-	FOR(x, a + 1, b){
-		int v = rec(a, x) + rec(x, b) + weight[a] * weight[b];
-		res = max(res, v);
-	}
-	return res;
-}
+class CasketOfStarEasy { 
+public: 
+int N; 
+int dp[1 << 11][10]; 
+vector <int> weight; 
+int rec(int used, int turn){ 
+  if(dp[used][turn] >= 0) return dp[used][turn]; 
+  int res = 0; 
+  if(turn == N - 2){ res = 0; goto end;} 
+  for(int i = 1; i < N - 1; i++){ 
+    if(!(used >> i & 1)){ 
+      int rn = N - 1, ln = 0; 
+      for(int j = i + 1; j < N; j++){ 
+        if(!(used >> j & 1)){rn = j; break;} 
+      } 
+      for(int j = i - 1; j >= 0; j--){ 
+        if(!(used >> j & 1)){ln = j; break;} 
+      } 
+      res = max(res, rec(used | 1 << i, turn + 1) + weight[rn] * weight[ln]); 
+     
+    } 
+  } 
+  end: 
+  return dp[used][turn] = res; 
+} 
 
-int maxEnergy(vector <int>  WEIGHT) {
-	weight = WEIGHT;
-	memset(dp, -1, sizeof(dp));
-	N = weight.size();
-	int res = rec(0, N - 1);
-	return res;
-}
+int maxEnergy(vector <int>  WEIGHT) { 
+  weight = WEIGHT; 
+  memset(dp, -1, sizeof(dp)); 
+  N = weight.size(); 
+  int res = rec(0, 0); 
+  return res; 
+} 
 
   
 // BEGIN CUT HERE
