@@ -42,15 +42,15 @@ string check(string word) {
 	bool res = true;
 	rep(i, word.size()){
 		if(word[i] == 'p'){
-			//if(i + 1 >= word.size()) res = false;
+			if(i + 1 >= word.size()) res = false;
 			if(word[i + 1] != 'i') res = false;
 			i++;
 		}else if(word[i] == 'k'){
-			//if(i + 1 >= word.size()) res = false;
+			if(i + 1 >= word.size()) res = false;
 			if(word[i + 1] != 'a') res = false;
 			i++;
 		}else if(word[i] == 'c'){
-			//if(i + 1 >= word.size()) res = false;
+			if(i + 1 >= word.size()) res = false;
 			if(word[i + 1] != 'h') res = false;
 			i++;
 			if(i + 1 >= word.size()) res = false;
